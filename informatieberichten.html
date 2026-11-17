@@ -9,127 +9,79 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
   :root {
-    --ground: #F2F3F5;
-    --surface: #FFFFFF;
-    --ink: #17202B;
-    --muted: #5B6573;
-    --line: #D6DAE0;
-    --accent: #154273;
-    --accent-ink: #FFFFFF;
-    --field: #FFFFFF;
-    --info: #1F6FB2;     --info-soft: #E3EEF8;
-    --warn: #B35C00;     --warn-soft: #FBEEDD;
-    --urgent: #C0261B;   --urgent-soft: #FBE3E1;
-    --ok: #2C7A3F;
+    --ground: #F2F3F5; --surface: #FFFFFF; --ink: #17202B; --muted: #5B6573; --line: #D6DAE0;
+    --accent: #154273; --accent-ink: #FFFFFF; --field: #FFFFFF; --soft: #E8EEF5;
+    --warn: #B35C00; --urgent: #C0261B; --ok: #2C7A3F;
     --body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
     --mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --ground: #10151C; --surface: #19212B; --ink: #E7ECF2; --muted: #9AA6B4;
-      --line: #2D3946; --accent: #7FB2E8; --accent-ink: #0E1620; --field: #121921;
-      --info: #7FB2E8; --info-soft: #1A2B3E; --warn: #F0A050; --warn-soft: #3A2A16;
-      --urgent: #FF7B6E; --urgent-soft: #3E1D1B; --ok: #6FCB85;
+      --ground: #10151C; --surface: #19212B; --ink: #E7ECF2; --muted: #9AA6B4; --line: #2D3946;
+      --accent: #7FB2E8; --accent-ink: #0E1620; --field: #121921; --soft: #1A2B3E;
+      --warn: #F0A050; --urgent: #FF7B6E; --ok: #6FCB85;
     }
   }
   :root[data-theme="dark"] {
-    --ground: #10151C; --surface: #19212B; --ink: #E7ECF2; --muted: #9AA6B4;
-    --line: #2D3946; --accent: #7FB2E8; --accent-ink: #0E1620; --field: #121921;
-    --info: #7FB2E8; --info-soft: #1A2B3E; --warn: #F0A050; --warn-soft: #3A2A16;
-    --urgent: #FF7B6E; --urgent-soft: #3E1D1B; --ok: #6FCB85;
+    --ground: #10151C; --surface: #19212B; --ink: #E7ECF2; --muted: #9AA6B4; --line: #2D3946;
+    --accent: #7FB2E8; --accent-ink: #0E1620; --field: #121921; --soft: #1A2B3E;
+    --warn: #F0A050; --urgent: #FF7B6E; --ok: #6FCB85;
   }
-
   * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--ground); color: var(--ink);
-    font-family: var(--body); font-size: 15px; line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-  header.top {
-    background: var(--surface); border-bottom: 1px solid var(--line);
-    padding: 14px 16px;
-  }
-  header.top .inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; justify-content: space-between; }
+  body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  header.top { background: var(--surface); border-bottom: 1px solid var(--line); padding: 14px 16px; }
+  header.top .inner { max-width: 1240px; margin: 0 auto; display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; justify-content: space-between; }
   h1 { font-size: 1.25rem; margin: 0; letter-spacing: -0.01em; }
   header.top p { margin: 0; color: var(--muted); font-size: 0.875rem; }
-
-  main {
-    max-width: 1200px; margin: 0 auto; padding: 20px 16px 48px;
-    display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px;
-  }
-  @media (min-width: 960px) {
+  main { max-width: 1240px; margin: 0 auto; padding: 20px 16px 48px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  @media (min-width: 980px) {
     main { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; }
-    .output { position: sticky; top: 16px; }
+    .output { position: sticky; top: 16px; max-height: calc(100vh - 32px); display: flex; flex-direction: column; }
+    .output .msg { overflow: auto; flex: 1 1 auto; }
   }
-
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
-  .card + .card { margin-top: 16px; }
+  .input > .card + .card { margin-top: 16px; }
   .card h2 { font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 12px; font-weight: 600; }
-
   .grid2 { display: grid; grid-template-columns: 1fr; gap: 12px; }
   @media (min-width: 520px) { .grid2 { grid-template-columns: 1fr 1fr; } }
+  .stack > * + * { margin-top: 12px; }
   .field { display: flex; flex-direction: column; gap: 4px; }
-  .field + .field, .grid2 + .field, .field + .grid2, .grid2 + .grid2 { margin-top: 12px; }
   label, .label { font-size: 0.8125rem; font-weight: 600; }
   .hint { font-size: 0.75rem; color: var(--muted); font-weight: 400; }
-  input[type=text], input[type=tel], input[type=number], input[type=datetime-local], select, textarea {
-    font: inherit; color: var(--ink); background: var(--field);
-    border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100%;
+  input[type=text], input[type=datetime-local], select, textarea {
+    font: inherit; color: var(--ink); background: var(--field); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; width: 100%;
   }
-  textarea { resize: vertical; min-height: 72px; }
+  textarea { resize: vertical; min-height: 64px; }
   input:focus, select:focus, textarea:focus, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-
-  .severity { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-  .severity input { position: absolute; opacity: 0; pointer-events: none; }
-  .severity label {
-    border: 1px solid var(--line); border-radius: 6px; padding: 8px 6px; text-align: center;
-    cursor: pointer; font-weight: 600; font-size: 0.875rem;
-  }
-  .severity input:checked + label.s-info { background: var(--info-soft); border-color: var(--info); color: var(--info); }
-  .severity input:checked + label.s-warn { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
-  .severity input:checked + label.s-urgent { background: var(--urgent-soft); border-color: var(--urgent); color: var(--urgent); }
-  .severity input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 1px; }
-
+  .soorten { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  @media (min-width: 520px) { .soorten { grid-template-columns: 1fr 1fr; } }
+  .soorten input { position: absolute; opacity: 0; pointer-events: none; }
+  .soorten label { display: block; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; cursor: pointer; font-weight: 600; font-size: 0.875rem; }
+  .soorten label small { display: block; font-weight: 400; color: var(--muted); font-size: 0.75rem; }
+  .soorten input:checked + label { border-color: var(--accent); background: var(--soft); box-shadow: inset 0 0 0 1px var(--accent); }
+  .soorten input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .modules { display: grid; grid-template-columns: 1fr; gap: 4px 12px; }
+  @media (min-width: 520px) { .modules { grid-template-columns: 1fr 1fr; } }
   .checks { display: flex; flex-direction: column; gap: 6px; }
-  .checks label { display: flex; gap: 8px; align-items: flex-start; font-weight: 400; font-size: 0.875rem; cursor: pointer; }
-  .checks input { margin-top: 3px; accent-color: var(--accent); }
-  .checks .suggested::after { content: "aanbevolen"; font-size: 0.6875rem; color: var(--accent); border: 1px solid currentColor; border-radius: 4px; padding: 0 4px; margin-left: 6px; white-space: nowrap; }
-
-  .tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 14px; }
-  .tabs button {
-    font: inherit; font-size: 0.875rem; font-weight: 600; background: none; border: 0; color: var(--muted);
-    padding: 8px 10px; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer;
-  }
+  .modules label, .checks label { display: flex; gap: 8px; align-items: flex-start; font-weight: 400; font-size: 0.875rem; cursor: pointer; }
+  .modules input, .checks input { margin-top: 3px; accent-color: var(--accent); }
+  .mod { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 14px; }
+  .mod > h3 { font-size: 0.875rem; margin: 0 0 10px; }
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--line); margin-bottom: 12px; }
+  .tabs button { font: inherit; font-size: 0.875rem; font-weight: 600; background: none; border: 0; color: var(--muted); padding: 8px 10px; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; }
   .tabs button[aria-selected=true] { color: var(--ink); border-bottom-color: var(--accent); }
-  .langswitch { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
-  .langswitch button { font: inherit; font-size: 0.8125rem; font-weight: 600; background: none; color: var(--muted); border: 0; padding: 4px 10px; cursor: pointer; }
-  .langswitch button[aria-pressed=true] { background: var(--accent); color: var(--accent-ink); }
-  .outhead { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
-
-  .banner { border-left: 4px solid var(--info); background: var(--info-soft); padding: 8px 12px; border-radius: 4px; font-weight: 600; font-size: 0.875rem; margin-bottom: 10px; }
-  .banner.warn { border-color: var(--warn); background: var(--warn-soft); }
-  .banner.urgent { border-color: var(--urgent); background: var(--urgent-soft); }
-
-  .msg {
-    white-space: pre-wrap; font-family: var(--body); font-size: 0.9375rem;
-    background: var(--ground); border: 1px solid var(--line); border-radius: 8px;
-    padding: 14px; margin: 0; min-height: 120px; overflow-wrap: anywhere;
-  }
-  .subject { font-weight: 600; margin-bottom: 8px; }
+  .msg { white-space: pre-wrap; font-family: var(--body); font-size: 0.9375rem; background: var(--ground); border: 1px solid var(--line); border-radius: 8px; padding: 14px; margin: 0; min-height: 120px; overflow-wrap: anywhere; }
+  .msg.sms { font-family: var(--mono); font-size: 0.875rem; max-width: 30rem; }
   .meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .count { font-family: var(--mono); font-size: 0.8125rem; color: var(--muted); }
   .count.over { color: var(--urgent); font-weight: 500; }
-  .btn {
-    font: inherit; font-weight: 600; font-size: 0.875rem; cursor: pointer;
-    background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 8px 14px;
-  }
+  .btn { font: inherit; font-weight: 600; font-size: 0.875rem; cursor: pointer; background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px; padding: 8px 14px; }
   .btn.ghost { background: none; color: var(--ink); border: 1px solid var(--line); }
   .btn.copied { background: var(--ok); color: #fff; }
   .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  .warnings { margin: 12px 0 0; padding: 0; list-style: none; font-size: 0.8125rem; color: var(--warn); }
+  .warnings { margin: 10px 0 0; padding: 0; list-style: none; font-size: 0.8125rem; color: var(--warn); }
   .warnings li::before { content: "⚠ "; }
-  .disclaimer { font-size: 0.75rem; color: var(--muted); margin-top: 14px; }
+  .disclaimer { font-size: 0.75rem; color: var(--muted); margin: 12px 0 0; }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -137,173 +89,238 @@
 <header class="top">
   <div class="inner">
     <h1>Crisisberichten Generator</h1>
-    <p>Informatieberichten en repatriëringsberichten voor Nederlanders in een land waar een crisis uitbreekt</p>
+    <p>Informatieservice-berichten en sms'jes voor Nederlanders in een land waar een crisis uitbreekt</p>
   </div>
 </header>
 
 <main>
   <form id="form" class="input" autocomplete="off" onsubmit="return false">
+
     <section class="card">
-      <h2>Situatie</h2>
-      <div class="grid2">
-        <div class="field">
-          <label for="land">Land</label>
-          <input type="text" id="land" placeholder="bijv. Marokko">
-        </div>
-        <div class="field">
-          <label for="plaats">Regio / stad</label>
-          <input type="text" id="plaats" placeholder="bijv. regio Al Haouz">
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label for="type">Soort crisis</label>
-          <select id="type"></select>
-        </div>
-        <div class="field" id="anderWrap" hidden>
-          <label for="anders">Omschrijving <span class="hint">(NL / EN, gescheiden door |)</span></label>
-          <input type="text" id="anders" placeholder="een gasexplosie | a gas explosion">
-        </div>
-      </div>
-      <div class="field">
-        <label for="persp">Wat moeten Nederlanders nu doen?</label>
-        <select id="persp">
-          <option value="blijf">Blijf waar u bent (niet reizen)</option>
-          <option value="eigen">Verlaat het land op eigen gelegenheid</option>
-          <option value="evac">Ondersteund vertrek / repatriëring</option>
-          <option value="info">Alleen informeren (geen handelingsperspectief)</option>
-        </select>
-      </div>
-      <div class="field">
-        <span class="label">Urgentie</span>
-        <div class="severity" role="radiogroup">
-          <input type="radio" name="sev" id="sev-info" value="info"><label class="s-info" for="sev-info">Informatie</label>
-          <input type="radio" name="sev" id="sev-warn" value="warn" checked><label class="s-warn" for="sev-warn">Waarschuwing</label>
-          <input type="radio" name="sev" id="sev-urgent" value="urgent"><label class="s-urgent" for="sev-urgent">Dringend</label>
-        </div>
-      </div>
-      <div class="field">
-        <label for="sitNL">Wat is er gebeurd? <span class="hint">Nederlands, 1–3 zinnen, alleen bevestigde feiten</span></label>
-        <textarea id="sitNL" placeholder="Vannacht om 23.11 uur lokale tijd vond een aardbeving plaats met een kracht van 6,8. Er is schade aan gebouwen en wegen in het gebied."></textarea>
-      </div>
-      <div class="field">
-        <label for="sitEN">Situation <span class="hint">Engels, optioneel</span></label>
-        <textarea id="sitEN" placeholder="Last night at 23:11 local time an earthquake of magnitude 6.8 struck the region…"></textarea>
-      </div>
+      <h2>1 · Soort bericht</h2>
+      <div class="soorten" id="soorten"></div>
+      <p class="hint" style="margin:10px 0 0">Een soort kiezen zet de passende onderdelen aan. Daarna kunt u alles aanpassen.</p>
     </section>
 
-    <section class="card" id="evacCard" hidden>
-      <h2>Repatriëring / ondersteund vertrek</h2>
+    <section class="card stack">
+      <h2>2 · Afzender en ontvangers</h2>
       <div class="grid2">
-        <div class="field">
-          <label for="vervoer">Vervoermiddel</label>
-          <select id="vervoer">
-            <option value="vlucht">Vlucht</option>
-            <option value="bus">Buskonvooi</option>
-            <option value="schip">Schip</option>
+        <div class="field"><label for="land">Land</label><input type="text" id="land" placeholder="bijv. Libanon"></div>
+        <div class="field"><label for="voorz">Aanhef</label>
+          <select id="voorz">
+            <option value="Nederlanders in">Beste Nederlanders in …</option>
+            <option value="Nederlander in">Beste Nederlander in …</option>
+            <option value="Nederlanders op">Beste Nederlanders op …</option>
+            <option value="Nederlander op">Beste Nederlander op …</option>
           </select>
         </div>
-        <div class="field">
-          <label for="bestemming">Bestemming</label>
-          <input type="text" id="bestemming" placeholder="bijv. Eindhoven of Larnaca (Cyprus)">
-        </div>
-      </div>
-      <div class="field">
-        <label for="verzamel">Verzamelpunt</label>
-        <input type="text" id="verzamel" placeholder="bijv. luchthaven Marrakech Menara, terminal 1, balie 12">
       </div>
       <div class="grid2">
-        <div class="field">
-          <label for="vertrek">Vertrek <span class="hint">lokale tijd</span></label>
-          <input type="datetime-local" id="vertrek">
-        </div>
-        <div class="field">
-          <label for="aanwezig">Aanwezig zijn</label>
-          <input type="text" id="aanwezig" placeholder="bijv. uiterlijk 3 uur voor vertrek">
+        <div class="field"><label for="stad">Standplaats post</label><input type="text" id="stad" placeholder="bijv. Beiroet"></div>
+        <div class="field"><label for="posttype">Soort post</label>
+          <select id="posttype">
+            <option value="De Nederlandse ambassade in">Ambassade</option>
+            <option value="Het Nederlandse consulaat-generaal in">Consulaat-generaal</option>
+          </select>
         </div>
       </div>
       <div class="grid2">
-        <div class="field">
-          <label for="deadline">Aanmelden vóór</label>
-          <input type="text" id="deadline" placeholder="bijv. 20.00 uur vanavond">
+        <div class="field"><label for="tijd">Verzonden op</label><input type="datetime-local" id="tijd"></div>
+        <div class="field"><label for="smscode">Sms-afzendercode</label><input type="text" id="smscode" placeholder="bijv. NL amb BEI"></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="tel">Contactcenter (24/7)</label><input type="text" id="tel" value="+31 247 247 247"></div>
+        <div class="field"><label for="wa">WhatsApp</label><input type="text" id="wa" value="+31 857 737 400"></div>
+      </div>
+    </section>
+
+    <section class="card stack">
+      <h2>3 · Situatie</h2>
+      <div class="field">
+        <label for="situatie">Wat is er aan de hand? <span class="hint">alleen bevestigde feiten, 1–4 zinnen</span></label>
+        <textarea id="situatie" rows="3" placeholder="De luchtaanvallen en beschietingen gaan door, zowel aan de grens als in andere delen van het land."></textarea>
+      </div>
+      <div class="field">
+        <label for="dringend">Kernboodschap <span class="hint">optioneel, komt direct na de opening, bijv. bij acute dreiging</span></label>
+        <textarea id="dringend" rows="2" placeholder="Gebruik de grensovergang niet. Bent u in de buurt van de grensovergang? Vertrek onmiddellijk."></textarea>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="smsEvent">Sms: gebeurtenis</label><input type="text" id="smsEvent" placeholder="Israël heeft doelen in Iran aangevallen."></div>
+        <div class="field"><label for="smsRisk">Sms: risico</label><input type="text" id="smsRisk" placeholder="Kans op verdere escalatie."></div>
+      </div>
+      <div class="field"><label for="smsAction">Sms: instructie</label><input type="text" id="smsAction"></div>
+    </section>
+
+    <section class="card">
+      <h2>4 · Onderdelen van het bericht</h2>
+      <div class="modules" id="modules"></div>
+
+      <div class="mod stack" data-mod="opening">
+        <h3>Opening</h3>
+        <select id="openingV" aria-label="Opening">
+          <option value="hoop">Wij hopen dat het goed gaat met u en uw naasten …</option>
+          <option value="veilig">Wij hopen van harte dat u op een veilige plek bent.</option>
+          <option value="opnieuw">Opnieuw schrijven we u een bericht in deze spannende tijden.</option>
+          <option value="dringend">Graag vragen wij uw dringende aandacht voor het volgende bericht:</option>
+          <option value="update">Met dit bericht willen we u op de hoogte brengen van de laatste ontwikkelingen.</option>
+        </select>
+      </div>
+
+      <div class="mod stack" data-mod="eerder">
+        <h3>Verwijzing naar eerder bericht</h3>
+        <div class="grid2">
+          <div class="field"><label for="eerderDatum">Datum eerder bericht</label><input type="text" id="eerderDatum" placeholder="bijv. afgelopen donderdag"></div>
+          <div class="field"><label for="eerderV">Vorm</label>
+            <select id="eerderV">
+              <option value="herhaal">We herhalen belangrijke delen</option>
+              <option value="verwijs">Voor uitreismogelijkheden verwijzen we naar …</option>
+            </select>
+          </div>
         </div>
-        <div class="field">
-          <label for="aanmeld">Aanmelden via</label>
-          <input type="text" id="aanmeld" placeholder="bijv. het aanmeldformulier op … of +31 247 247 247">
+        <div class="field"><label for="eerderUrl">Link naar het hele bericht <span class="hint">optioneel</span></label><input type="text" id="eerderUrl"></div>
+      </div>
+
+      <div class="mod stack" data-mod="reisadvies">
+        <h3>Reisadvies</h3>
+        <div class="grid2">
+          <div class="field"><label for="kleur">Kleurcode</label>
+            <select id="kleur"><option value="rood">Rood</option><option value="oranje">Oranje</option></select>
+          </div>
+          <div class="field"><label for="kleurSinds">Sinds <span class="hint">optioneel</span></label><input type="text" id="kleurSinds" placeholder="bijv. 20 oktober 2023"></div>
+        </div>
+        <div class="field"><label for="gebied">Geldt voor <span class="hint">leeg = heel het land</span></label><input type="text" id="gebied" placeholder="bijv. het zuiden"></div>
+      </div>
+
+      <div class="mod stack" data-mod="vertrek">
+        <h3>Zelfstandig vertrek</h3>
+        <div class="field"><label for="luchtruim">Luchtruim</label>
+          <select id="luchtruim">
+            <option value="open">Open</option>
+            <option value="beperkt">Open, beperkt vliegverkeer</option>
+            <option value="dicht">Gesloten</option>
+          </select>
+        </div>
+        <div class="field"><label for="vluchten">Vluchten <span class="hint">maatschappijen, routes, websites</span></label>
+          <textarea id="vluchten" rows="3" placeholder="Middle East Airlines (MEA) voert op dit moment vrijwel als enige luchtvaartmaatschappij vluchten uit van en naar Beiroet. Deze vluchten zijn voor een groot deel volgeboekt."></textarea></div>
+        <div class="field"><label for="overland">Over land <span class="hint">optioneel: grensovergangen, openingstijden</span></label>
+          <textarea id="overland" rows="2"></textarea></div>
+      </div>
+
+      <div class="mod stack" data-mod="evac">
+        <h3>Verwachtingen over evacuatie</h3>
+        <select id="evacV" aria-label="Verwachtingen over evacuatie">
+          <option value="niet">Evacuatie is op dit moment niet aan de orde</option>
+          <option value="belofte">Evacuatie kan niet worden beloofd</option>
+          <option value="voorbereiding">Overheid bereidt mogelijk vertrek voor (belronde)</option>
+          <option value="repatniet">Repatriëring is niet aan de orde</option>
+        </select>
+      </div>
+
+      <div class="mod stack" data-mod="repat">
+        <h3>Repatriëring door de Nederlandse overheid</h3>
+        <div class="grid2">
+          <div class="field"><label for="vervoer">Vervoer</label>
+            <select id="vervoer">
+              <option value="busvervoer">Bus</option>
+              <option value="een vlucht">Vlucht</option>
+              <option value="een militaire vlucht">Militaire vlucht</option>
+              <option value="vervoer per schip">Schip</option>
+            </select>
+          </div>
+          <div class="field"><label for="besluitdatum">Besluit genomen op</label><input type="text" id="besluitdatum" placeholder="bijv. vandaag, 22 juni 2025,"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="van">Van</label><input type="text" id="van" placeholder="bijv. Tel Aviv of Jeruzalem"></div>
+          <div class="field"><label for="naar">Naar</label><input type="text" id="naar" placeholder="bijv. Sharm-el-Sheikh in Egypte"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label for="vervolg">Vervolgreis</label>
+            <select id="vervolg">
+              <option value="commercieel">Daarna commerciële vlucht naar NL</option>
+              <option value="eigen">Daarna op eigen keuze, kosten en verantwoordelijkheid</option>
+              <option value="nl">Rechtstreeks naar Nederland</option>
+            </select>
+          </div>
+          <div class="field"><label for="kosten">Kosten</label>
+            <select id="kosten">
+              <option value="overheid">Voor rekening van de overheid</option>
+              <option value="bijdrage">Eigen bijdrage achteraf</option>
+              <option value="">Niet vermelden</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="wie">Wie komt in aanmerking</label>
+          <textarea id="wie" rows="2">mensen met de Nederlandse nationaliteit of een geldige verblijfsvergunning voor Nederland en hun kerngezin (partner en afhankelijke kinderen tot 18 jaar)</textarea></div>
+        <div class="grid2">
+          <div class="field"><label for="aanmeldVia">Aanmelden via</label>
+            <select id="aanmeldVia">
+              <option value="ccf">Crisis Contactformulier</option>
+              <option value="bel">BZ belt u op</option>
+            </select>
+          </div>
+          <div class="field"><label for="huisdier">Huisdieren</label>
+            <select id="huisdier"><option value="nee">Kunnen niet mee</option><option value="">Niet vermelden</option></select>
+          </div>
+        </div>
+        <div class="field"><label for="verzamel">Verzamelpunt en tijd <span class="hint">leeg = "details volgen telefonisch"</span></label><input type="text" id="verzamel"></div>
+        <div class="checks">
+          <label><input type="checkbox" id="bagage" checked><span>Alleen minimale handbagage, zelf te dragen</span></label>
+          <label><input type="checkbox" id="risico" checked><span>Geen enkele optie is zonder risico: zelf afwegen</span></label>
+          <label><input type="checkbox" id="geheim"><span>Informatie geheimhouden (veiligheid operatie)</span></label>
+          <label><input type="checkbox" id="anoniem" checked><span>Telefoon in de gaten houden, BZ kan anoniem bellen</span></label>
         </div>
       </div>
-      <div class="field">
-        <label for="wie">Wie mag mee</label>
-        <input type="text" id="wie" value="Nederlanders en hun directe gezinsleden (partner en minderjarige kinderen) met een geldig reisdocument">
+
+      <div class="mod stack" data-mod="ccf">
+        <h3>Crisis Contactformulier</h3>
+        <div class="field"><label for="ccfUrl">Link</label><input type="text" id="ccfUrl" value="https://www.nederlandwereldwijd.nl/crisis/formulier"></div>
       </div>
-      <div class="field">
-        <label for="kosten">Kosten <span class="hint">optioneel</span></label>
-        <input type="text" id="kosten" placeholder="bijv. U betaalt achteraf een eigen bijdrage.">
+
+      <div class="mod stack" data-mod="schuilen">
+        <h3>Schuilen</h3>
+        <div class="checks" id="schuilList"></div>
       </div>
-      <div class="field">
-        <span class="label">Meenemen</span>
-        <div class="checks" id="packList"></div>
+
+      <div class="mod stack" data-mod="verplaatsen">
+        <h3>Verplaatsen</h3>
+        <div class="checks">
+          <label><input type="checkbox" id="vluchttas" checked><span>Vluchttas klaarzetten (met lijst)</span></label>
+          <label><input type="checkbox" id="route" checked><span>Route doorgeven, niet alleen, als vrouw extra voorzichtig</span></label>
+          <label><input type="checkbox" id="onveilig"><span>Onveilige straat: niet in het donker, checkpoints vermijden, geen foto's</span></label>
+          <label><input type="checkbox" id="auto"><span>Met de auto: papieren, brandstof, drukke wegen</span></label>
+        </div>
       </div>
-      <div class="field">
-        <label for="huisdier">Huisdieren</label>
-        <select id="huisdier">
-          <option value="">Niet vermelden</option>
-          <option value="nee">Niet toegestaan</option>
-          <option value="ja">Toegestaan in een reismand</option>
+
+      <div class="mod stack" data-mod="ambassade">
+        <h3>Ambassade</h3>
+        <select id="ambV" aria-label="Ambassade">
+          <option value="open">Open, helpt Nederlanders in nood</option>
+          <option value="dicht">Gesloten voor publiek</option>
+          <option value="niet">Ga niet naar de ambassade (onveilig gebied)</option>
+        </select>
+      </div>
+
+      <div class="mod stack" data-mod="next">
+        <h3>Volgend bericht</h3>
+        <select id="nextV" aria-label="Volgend bericht">
+          <option value="dagelijks">We houden u voorlopig dagelijks op de hoogte</option>
+          <option value="aanleiding">We sturen bericht als daar aanleiding voor is</option>
+        </select>
+      </div>
+
+      <div class="mod stack" data-mod="slot">
+        <h3>Afsluiting</h3>
+        <select id="slotV" aria-label="Afsluiting">
+          <option value="veilig">We hopen dat u veilig bent en blijft, en wensen u sterkte.</option>
+          <option value="sterkte">Wij wensen u veel sterkte,</option>
+          <option value="moed">We realiseren ons dat u zich in heel moeilijke omstandigheden bevindt. Houd vol.</option>
+          <option value="haaks">Houd u haaks en veel sterkte,</option>
         </select>
       </div>
     </section>
 
     <section class="card">
-      <h2>Advies</h2>
-      <div class="checks" id="adviceList"></div>
-      <div class="field" style="margin-top:12px">
-        <label for="extraNL">Extra advies <span class="hint">één per regel, NL</span></label>
-        <textarea id="extraNL" rows="2"></textarea>
-      </div>
-      <div class="field">
-        <label for="extraEN">Extra advice <span class="hint">één per regel, EN</span></label>
-        <textarea id="extraEN" rows="2"></textarea>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Contact &amp; bericht</h2>
-      <div class="grid2">
-        <div class="field">
-          <label for="afzender">Afzender</label>
-          <input type="text" id="afzender" placeholder="bijv. Ambassade in Rabat">
-        </div>
-        <div class="field">
-          <label for="tel">Noodnummer 24/7</label>
-          <input type="tel" id="tel" value="+31 247 247 247">
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label for="kanaal">Extra contactkanaal <span class="hint">optioneel</span></label>
-          <input type="text" id="kanaal" placeholder="bijv. WhatsApp +31 247 247 247">
-        </div>
-        <div class="field">
-          <label for="web">Website voor actuele info <span class="hint">optioneel</span></label>
-          <input type="text" id="web" placeholder="bijv. www.nederlandwereldwijd.nl">
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label for="nr">Updatenummer</label>
-          <input type="number" id="nr" min="1" value="1">
-        </div>
-        <div class="field">
-          <label for="tijd">Tijdstip bericht <span class="hint">lokale tijd</span></label>
-          <input type="datetime-local" id="tijd">
-        </div>
-      </div>
-      <div class="field">
-        <label for="next">Volgende update verwacht <span class="hint">optioneel, bijv. 18.00 uur lokale tijd</span></label>
-        <input type="text" id="next" placeholder="18.00 uur lokale tijd">
-      </div>
-      <div class="actions" style="margin-top:16px">
+      <div class="actions">
         <button type="button" class="btn ghost" id="voorbeeld">Voorbeeld invullen</button>
         <button type="button" class="btn ghost" id="wis">Formulier wissen</button>
       </div>
@@ -311,429 +328,348 @@
   </form>
 
   <section class="output card" aria-live="polite">
-    <div class="outhead">
-      <div class="tabs" role="tablist" id="tabs">
-        <button role="tab" data-kind="push" aria-selected="true">SMS / push</button>
-        <button role="tab" data-kind="mail" aria-selected="false">E-mail</button>
-        <button role="tab" data-kind="social" aria-selected="false">Social media</button>
-      </div>
-      <div class="langswitch" role="group" aria-label="Taal">
-        <button type="button" data-lang="nl" aria-pressed="true">NL</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
-      </div>
+    <div class="tabs" role="tablist" id="tabs">
+      <button role="tab" data-kind="mail" aria-selected="true">Informatieservice-bericht</button>
+      <button role="tab" data-kind="sms" aria-selected="false">Sms</button>
     </div>
-
-    <div class="banner" id="banner"></div>
-    <div class="subject" id="subject" hidden></div>
     <pre class="msg" id="out"></pre>
     <div class="meta">
       <span class="count" id="count"></span>
-      <div class="actions">
-        <button type="button" class="btn ghost" id="copyAll">Kopieer NL + EN</button>
-        <button type="button" class="btn" id="copy">Kopieer</button>
-      </div>
+      <div class="actions"><button type="button" class="btn" id="copy">Kopieer</button></div>
     </div>
     <ul class="warnings" id="warnings"></ul>
-    <p class="disclaimer">Controleer elk bericht op juistheid en laat het fiatteren volgens de geldende procedure voordat het wordt verstuurd. Dit hulpmiddel verstuurt niets; alle invoer blijft in deze browser.</p>
+    <p class="disclaimer">Formuleringen zijn gebaseerd op openbaar gepubliceerde Informatieservice-berichten (Soedan 2023, Libanon 2024, Israël/Iran 2025, Midden-Oosten 2026). Controleer elk bericht en volg de fiatteringsprocedure. Dit hulpmiddel verstuurt niets; invoer blijft in deze browser.</p>
   </section>
 </main>
 
 <script>
 (function () {
   "use strict";
-
-  const TYPES = [
-    { id: "aardbeving",   nl: ["Aardbeving", "een aardbeving"], en: ["Earthquake", "an earthquake"], adv: ["binnen_veilig", "naschokken", "lokaal", "familie", "veilig"] },
-    { id: "natuur",       nl: ["Storm / overstroming", "zwaar weer en overstromingen"], en: ["Storm / flooding", "severe weather and flooding"], adv: ["binnen", "mijd", "lokaal", "noodpakket", "familie"] },
-    { id: "bosbrand",     nl: ["Bosbranden", "bosbranden"], en: ["Wildfires", "wildfires"], adv: ["evacuatie", "mijd", "lokaal", "familie"] },
-    { id: "onrust",       nl: ["Onrust / demonstraties", "onrust en demonstraties"], en: ["Unrest / demonstrations", "unrest and demonstrations"], adv: ["binnen", "mijd", "lokaal", "media", "familie"] },
-    { id: "conflict",     nl: ["Gewapend conflict", "gewapend geweld"], en: ["Armed conflict", "armed violence"], adv: ["binnen", "vertrek", "lokaal", "noodpakket", "registreer", "familie"] },
-    { id: "aanslag",      nl: ["Aanslag / incident", "een ernstig veiligheidsincident"], en: ["Attack / incident", "a serious security incident"], adv: ["mijd", "lokaal", "media", "veilig", "familie"] },
-    { id: "gezondheid",   nl: ["Gezondheidscrisis", "een uitbraak van een besmettelijke ziekte"], en: ["Health crisis", "an outbreak of an infectious disease"], adv: ["gezondheid", "lokaal", "reisorg", "familie"] },
-    { id: "vervoer",      nl: ["Luchtruim / vervoer verstoord", "ernstige verstoring van het (lucht)verkeer"], en: ["Airspace / transport disrupted", "a serious disruption of air and ground transport"], adv: ["reisorg", "verzekering", "lokaal", "familie"] },
-    { id: "anders",       nl: ["Anders…", ""], en: ["Other…", ""], adv: ["lokaal", "familie"] }
-  ];
-
-  const ADVICE = [
-    { id: "lokaal",     nl: "Volg de instructies van de lokale autoriteiten op.", en: "Follow the instructions of the local authorities.", short: ["Volg instructies lokale autoriteiten", "Follow local authorities' instructions"] },
-    { id: "binnen",     nl: "Blijf binnen op een veilige plek tot de situatie duidelijk is.", en: "Stay indoors in a safe place until the situation is clear.", short: ["Blijf binnen", "Stay indoors"] },
-    { id: "binnen_veilig", nl: "Ga niet terug een beschadigd gebouw in en blijf uit de buurt van muren, ramen en elektriciteitskabels.", en: "Do not re-enter damaged buildings and stay clear of walls, windows and power lines.", short: ["Mijd beschadigde gebouwen", "Avoid damaged buildings"] },
-    { id: "naschokken", nl: "Houd rekening met naschokken.", en: "Be prepared for aftershocks.", short: ["Houd rekening met naschokken", "Expect aftershocks"] },
-    { id: "mijd",       nl: "Mijd het getroffen gebied en grote mensenmassa's.", en: "Avoid the affected area and large crowds.", short: ["Mijd het gebied", "Avoid the area"] },
-    { id: "evacuatie",  nl: "Geef direct gehoor aan evacuatiebevelen.", en: "Comply immediately with evacuation orders.", short: ["Volg evacuatiebevelen direct op", "Obey evacuation orders"] },
-    { id: "vertrek",    nl: "Overweeg het land te verlaten zolang dat nog veilig kan met commerciële vluchten of over land.", en: "Consider leaving the country while it is still safe to do so by commercial flights or overland.", short: ["Overweeg te vertrekken", "Consider leaving"] },
-    { id: "media",      nl: "Volg het lokale nieuws en de berichtgeving via (sociale) media.", en: "Monitor local news and (social) media.", short: ["Volg het nieuws", "Monitor the news"] },
-    { id: "noodpakket", nl: "Houd uw paspoort, medicijnen, geld en een opgeladen telefoon bij de hand.", en: "Keep your passport, medication, money and a charged phone at hand.", short: ["Houd paspoort en telefoon bij de hand", "Keep passport and phone at hand"] },
-    { id: "reisorg",    nl: "Neem contact op met uw reisorganisatie of luchtvaartmaatschappij over uw reis.", en: "Contact your tour operator or airline about your travel plans.", short: ["Neem contact op met uw reisorganisatie", "Contact your airline/tour operator"] },
-    { id: "verzekering",nl: "Neem bij extra kosten contact op met uw reisverzekeraar.", en: "Contact your travel insurer about any additional costs.", short: ["Bel uw reisverzekeraar", "Contact your insurer"] },
-    { id: "gezondheid", nl: "Volg de hygiëne- en gezondheidsmaatregelen van de lokale gezondheidsautoriteiten.", en: "Follow the hygiene and health measures of the local health authorities.", short: ["Volg de gezondheidsmaatregelen", "Follow health measures"] },
-    { id: "registreer", nl: "Registreer u bij de Informatieservice als u dat nog niet heeft gedaan, zodat wij u kunnen informeren.", en: "Register with the Information Service if you have not done so yet, so we can keep you informed.", short: ["Registreer u bij de Informatieservice", "Register with the Information Service"] },
-    { id: "familie",    nl: "Laat familie en vrienden in Nederland weten hoe het met u gaat.", en: "Let family and friends in the Netherlands know how you are.", short: ["Laat familie weten hoe het gaat", "Let family know you're OK"] },
-    { id: "veilig",     nl: "Bent u in het getroffen gebied en veilig? Laat dit dan weten via uw eigen kanalen.", en: "If you are in the affected area and safe, let others know via your own channels.", short: ["Meld dat u veilig bent", "Let others know you're safe"] }
-  ];
-
-  const PACK = [
-    { id: "pas",   nl: "uw paspoort of identiteitskaart (ook van uw kinderen)", en: "your passport or ID card (including your children's)", on: true },
-    { id: "med",   nl: "noodzakelijke medicijnen", en: "essential medication", on: true },
-    { id: "tas",   nl: "maximaal één stuk handbagage per persoon", en: "a maximum of one piece of hand luggage per person", on: true },
-    { id: "tel",   nl: "een opgeladen telefoon en oplader", en: "a charged phone and charger", on: true },
-    { id: "eten",  nl: "water en eten voor 24 uur", en: "water and food for 24 hours", on: false },
-    { id: "geld",  nl: "contant geld", en: "cash", on: false },
-    { id: "docs",  nl: "verblijfsvergunning of andere relevante documenten van gezinsleden", en: "residence permits or other relevant documents of family members", on: false }
-  ];
-  const VERVOER = {
-    vlucht: { nl: "een vlucht", en: "a flight", nlS: "vlucht", enS: "flight" },
-    bus:    { nl: "een buskonvooi", en: "a bus convoy", nlS: "bus", enS: "bus" },
-    schip:  { nl: "een schip", en: "a ship", nlS: "schip", enS: "ship" }
-  };
-
-  const SEV = {
-    info:   { nl: "INFORMATIE",   en: "INFORMATION", cls: "" },
-    warn:   { nl: "WAARSCHUWING", en: "WARNING",     cls: "warn" },
-    urgent: { nl: "DRINGEND",     en: "URGENT",      cls: "urgent" }
-  };
-
   const $ = (id) => document.getElementById(id);
-  const STORE = "crisisberichten-concept-v2";
-  let kind = "push", lang = "nl";
-  let touchedAdvice = false;
 
-  // ---- build form controls
-  $("type").innerHTML = TYPES.map(t => `<option value="${t.id}">${t.nl[0]}</option>`).join("");
-  $("packList").innerHTML = PACK.map(p =>
-    `<label><input type="checkbox" value="${p.id}"${p.on ? " checked" : ""}><span>${cap(p.nl)}</span></label>`).join("");
-  $("adviceList").innerHTML = ADVICE.map(a =>
-    `<label data-id="${a.id}"><input type="checkbox" value="${a.id}"><span>${a.nl}</span></label>`).join("");
+  // ---------- berichtsoorten en hun standaardonderdelen
+  const SOORTEN = [
+    { id: "eerste", label: "Eerste veiligheidswaarschuwing", sub: "Er breekt iets uit: blijf veilig", mods: ["opening","reisadvies","schuilen","info","contact","slot"], opening: "veilig", slot: "veilig", sms: "Blijf weg van drukke plekken en mogelijke doelwitten." },
+    { id: "acuut", label: "Acute dreiging", sub: "Kort en dringend: verlaat dit gebied", mods: ["opening","contact","slot"], opening: "dringend", slot: "sterkte", sms: "Verlaat het gebied onmiddellijk." },
+    { id: "schuilen", label: "Instructie om te schuilen", sub: "Binnen blijven, weg van ramen", mods: ["opening","schuilen","verplaatsen","evac","info","contact","next","slot"], opening: "opnieuw", evac: "belofte", next: "dagelijks", slot: "haaks", sms: "Blijf binnen, uit de buurt van ramen en balkons." },
+    { id: "verwachting", label: "Verwachtingsmanagement", sub: "Evacuatie kan niet worden beloofd", mods: ["opening","evac","schuilen","verplaatsen","ambassade","contact","slot"], opening: "opnieuw", evac: "belofte", amb: "niet", slot: "moed", sms: "Evacuatie nu niet mogelijk. Blijf op een veilige plek." },
+    { id: "eigen", label: "Zelfstandig vertrek", sub: "Vluchten, routes over land", mods: ["opening","reisadvies","vertrek","evac","verplaatsen","info","contact","cct","tips","slot"], opening: "hoop", evac: "niet", slot: "veilig", sms: "Verlaat het land als dat veilig kan. Zie e-mail voor vluchten." },
+    { id: "registratie", label: "Crisisregistratie", sub: "Oproep: vul het Crisis Contactformulier in", mods: ["opening","ccf","evac","contact","cct","eerder","tips","slot"], opening: "hoop", evac: "repatniet", eerderV: "verwijs", slot: "veilig", sms: "Gestrand? Vul het Crisis Contactformulier in, zie e-mail." },
+    { id: "repat", label: "Aankondiging repatriëring", sub: "De overheid helpt actief bij vertrek", mods: ["opening","repat","verplaatsen","contact","cct","slot"], opening: "hoop", slot: "veilig", sms: "NL overheid helpt bij vertrek. Meld u aan, zie e-mail." },
+    { id: "stabiel", label: "Situatie stabiliseert", sub: "Risico's blijven, blijf alert", mods: ["opening","reisadvies","next","contact","cct","slot"], opening: "hoop", next: "aanleiding", slot: "veilig", sms: "Situatie lijkt stabieler, maar risico's blijven. Zie e-mail." }
+  ];
 
-  function currentType() { return TYPES.find(t => t.id === $("type").value) || TYPES[0]; }
+  const MODULES = [
+    ["opening", "Persoonlijke opening"], ["eerder", "Verwijzing naar eerder bericht"],
+    ["reisadvies", "Reisadvies (kleurcode)"], ["vertrek", "Zelfstandig vertrek"],
+    ["evac", "Verwachtingen over evacuatie"], ["repat", "Repatriëring"],
+    ["ccf", "Crisis Contactformulier"], ["schuilen", "Schuilen"],
+    ["verplaatsen", "Verplaatsen / vluchttas"], ["info", "Informatieservice (gegevens bijwerken)"],
+    ["ambassade", "Ambassade"], ["contact", "Contact 24/7"],
+    ["cct", "Crisis Contact Team (problemen bij uitreis)"], ["tips", "Link: wat te doen in een crisissituatie"],
+    ["next", "Volgend bericht"], ["slot", "Afsluiting"]
+  ];
 
-  function applySuggested(force) {
-    const t = currentType();
-    document.querySelectorAll("#adviceList label").forEach(l => {
-      const on = t.adv.includes(l.dataset.id);
-      l.querySelector("span").classList.toggle("suggested", on);
-      if (force) l.querySelector("input").checked = on;
-    });
+  const SCHUIL = [
+    ["binnen", "Zit u op een veilige plek? Blijf dan binnen. Ga alleen naar buiten als dat moet.", true],
+    ["ramen", "Blijf uit de buurt van ramen en balkons.", true],
+    ["lager", "Ga bij luchtalarm indien mogelijk naar een lager gelegen ruimte in het gebouw.", false],
+    ["voorraad", "Koop voor een aantal dagen water, voedsel en eventuele medicatie, zodat u binnen kunt blijven.", true],
+    ["afsluiten", "Sluit uw verblijfplaats goed af.", false],
+    ["doelwit", "Blijf weg van drukke plekken en mogelijke doelwitten.", false],
+    ["familie", "Houd uw familie op de hoogte van hoe het met u gaat.", true],
+    ["media", "Houd de (lokale) media in de gaten en volg de aanwijzingen van de lokale autoriteiten.", true]
+  ];
+
+  // ---------- opbouw formulier
+  $("soorten").innerHTML = SOORTEN.map((s, i) =>
+    `<div><input type="radio" name="soort" id="soort-${s.id}" value="${s.id}"${i === 0 ? " checked" : ""}><label for="soort-${s.id}">${s.label}<small>${s.sub}</small></label></div>`).join("");
+  $("modules").innerHTML = MODULES.map(([id, l]) => `<label><input type="checkbox" data-module="${id}"><span>${l}</span></label>`).join("");
+  $("schuilList").innerHTML = SCHUIL.map(([id, t, on]) => `<label><input type="checkbox" data-schuil="${id}"${on ? " checked" : ""}><span>${t}</span></label>`).join("");
+
+  const soort = () => SOORTEN.find(s => s.id === (document.querySelector("input[name=soort]:checked") || {}).value) || SOORTEN[0];
+  const modOn = (id) => { const c = document.querySelector(`[data-module="${id}"]`); return !!(c && c.checked); };
+
+  function applySoort() {
+    const s = soort();
+    document.querySelectorAll("[data-module]").forEach(c => c.checked = s.mods.includes(c.dataset.module));
+    $("openingV").value = s.opening || "hoop";
+    if (s.evac) $("evacV").value = s.evac;
+    if (s.slot) $("slotV").value = s.slot;
+    if (s.next) $("nextV").value = s.next;
+    if (s.amb) $("ambV").value = s.amb;
+    if (s.eerderV) $("eerderV").value = s.eerderV;
+    $("smsAction").value = s.sms;
+    document.querySelector('[data-schuil="doelwit"]').checked = (s.id === "eerste");
+    $("onveilig").checked = (s.id === "verwachting" || s.id === "schuilen");
   }
 
-  function nowLocal() {
-    const d = new Date(); d.setSeconds(0, 0);
-    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-  }
+  // ---------- helpers
+  const v = (id) => $(id).value.trim();
+  const ph = (x, fallback) => x || `[${fallback}]`;
+  const punt = (s) => s && !/[.!?:]$/.test(s) ? s + "." : s;
+  const cap = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
+  const low = (s) => s ? s.charAt(0).toLowerCase() + s.slice(1) : s;
+  const MAANDEN = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
+  const datumNL = (d) => `${d.getDate()} ${MAANDEN[d.getMonth()]} ${d.getFullYear()}`;
+  const tijdNL = (d) => `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  function nowLocal() { const d = new Date(); d.setSeconds(0, 0); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); }
 
-  // ---- read state
-  function val(id) { return $(id).value.trim(); }
-  function state() {
-    return {
-      land: val("land"), plaats: val("plaats"), type: $("type").value, anders: val("anders"),
-      sev: (document.querySelector("input[name=sev]:checked") || {}).value || "warn",
-      sitNL: val("sitNL"), sitEN: val("sitEN"),
-      advice: [...document.querySelectorAll("#adviceList input:checked")].map(i => i.value),
-      extraNL: val("extraNL"), extraEN: val("extraEN"),
-      afzender: val("afzender"), tel: val("tel"), kanaal: val("kanaal"), web: val("web"),
-      nr: val("nr"), tijd: $("tijd").value, next: val("next"),
-      persp: $("persp").value, vervoer: $("vervoer").value, bestemming: val("bestemming"),
-      verzamel: val("verzamel"), vertrek: $("vertrek").value, aanwezig: val("aanwezig"),
-      deadline: val("deadline"), aanmeld: val("aanmeld"), wie: val("wie"), kosten: val("kosten"),
-      huisdier: $("huisdier").value,
-      pack: [...document.querySelectorAll("#packList input:checked")].map(i => i.value)
-    };
-  }
+  // ---------- samenstellen informatieservice-bericht
+  function compose() {
+    const land = ph(v("land"), "land");
+    const stad = ph(v("stad"), "standplaats");
+    const afzender = `${$("posttype").value} ${stad}`;
+    const voorz = $("voorz").value;
+    const prep = voorz.split(" ")[1];
+    const tel = ph(v("tel"), "telefoonnummer");
+    const wa = v("wa");
+    const P = [];
+    const H = (t) => P.push("\n" + t);
 
-  function fmtTime(s, l) {
-    if (!s) return "";
-    const d = new Date(s);
-    if (isNaN(d)) return "";
-    const date = d.toLocaleDateString(l === "nl" ? "nl-NL" : "en-GB", { day: "numeric", month: "long", year: "numeric" });
-    const hh = String(d.getHours()).padStart(2, "0"), mm = String(d.getMinutes()).padStart(2, "0");
-    return l === "nl" ? `${date}, ${hh}.${mm} uur (lokale tijd)` : `${date}, ${hh}:${mm} (local time)`;
-  }
+    const d = $("tijd").value ? new Date($("tijd").value) : null;
+    const wanneer = d && !isNaN(d) ? `, op ${datumNL(d)}, om ${tijdNL(d)} uur` : "";
+    P.push(`Bericht van ${low(afzender)}, verstuurd via de Informatieservice van Buitenlandse Zaken naar Nederlanders ${prep} ${land}${wanneer}.`);
+    P.push(`Beste ${voorz} ${land},`);
 
-  function cap(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
-
-  // ---- compose
-  function compose(s, l) {
-    const t = TYPES.find(x => x.id === s.type) || TYPES[0];
-    let label = t[l][0], phrase = t[l][1];
-    if (t.id === "anders") {
-      const parts = s.anders.split("|").map(x => x.trim());
-      phrase = (l === "nl" ? parts[0] : (parts[1] || parts[0])) || (l === "nl" ? "[omschrijving]" : "[description]");
-      label = cap(phrase.replace(/^(een|an?|the)\s+/i, ""));
+    if (modOn("opening")) {
+      P.push({
+        hoop: "Wij hopen dat het goed gaat met u en uw naasten en dat u dit bericht in goede gezondheid ontvangt.",
+        veilig: "Wij hopen van harte dat u op een veilige plek bent.",
+        opnieuw: "Opnieuw schrijven we u een bericht in deze spannende tijden.",
+        dringend: "Graag vragen wij uw dringende aandacht voor het volgende bericht:",
+        update: "Met dit bericht willen we u op de hoogte brengen van de laatste ontwikkelingen."
+      }[$("openingV").value]);
     }
-    const land = s.land || (l === "nl" ? "[land]" : "[country]");
-    const where = s.plaats ? `${s.plaats}, ${land}` : land;
-    const sev = SEV[s.sev][l];
-    const nr = parseInt(s.nr, 10) || 1;
-    const upd = nr > 1 ? (l === "nl" ? ` – update ${nr}` : ` – update ${nr}`) : "";
-    const tel = s.tel || "[telefoonnummer]";
-    const skip = s.persp === "eigen" ? ["vertrek", "binnen"] : s.persp === "evac" ? ["vertrek"] : [];
-    const adv = s.advice.filter(id => !skip.includes(id)).map(id => ADVICE.find(a => a.id === id)).filter(Boolean);
-    const extra = (l === "nl" ? s.extraNL : s.extraEN).split("\n").map(x => x.trim()).filter(Boolean);
-    let sit = l === "nl" ? s.sitNL : s.sitEN;
-    if (!sit) sit = l === "nl" ? `Er is sprake van ${phrase} in ${where}.` : `There is ${phrase} in ${where}.`;
-    const when = fmtTime(s.tijd, l);
-    const afz = s.afzender;
-    const NL = l === "nl";
-    const ph = (nl, en) => NL ? nl : en;
-    const vv = VERVOER[s.vervoer] || VERVOER.vlucht;
-    const vertrek = fmtTime(s.vertrek, l).replace(NL ? " (lokale tijd)" : " (local time)", "");
-    const vertrekTxt = vertrek ? vertrek + ph(" (lokale tijd)", " (local time)") : ph("[datum en tijd]", "[date and time]");
-    const verzamel = s.verzamel || ph("[verzamelpunt]", "[assembly point]");
-    const aanmeld = s.aanmeld || tel;
+    if (v("dringend")) P.push(v("dringend"));
+    if (v("situatie")) P.push(punt(v("situatie")));
 
-    // what to do: long (mail) and short (push)
-    let actLong = [], actShort = "";
-    if (s.persp === "blijf") {
-      actLong.push(ph("Blijf voorlopig waar u bent. Reizen in of naar het getroffen gebied is op dit moment niet veilig.",
-                      "Stay where you are for now. Travelling in or to the affected area is currently not safe."));
-      actShort = ph("Blijf waar u bent en reis niet.", "Stay where you are, do not travel.");
-    } else if (s.persp === "eigen") {
-      actLong.push(ph(`Wij adviseren Nederlanders ${land} te verlaten zolang dat nog veilig kan met commerciële vluchten of over land.`,
-                      `We advise Dutch nationals to leave ${land} while it is still safe to do so by commercial flights or overland.`));
-      actLong.push(ph("Wacht niet af: een door de overheid georganiseerd vertrek kan niet worden gegarandeerd.",
-                      "Do not wait: a government-organised departure cannot be guaranteed."));
-      actShort = ph(`Verlaat ${land} nu het nog kan.`, `Leave ${land} while you still can.`);
-    } else if (s.persp === "evac") {
-      const dest = s.bestemming ? ph(` naar ${s.bestemming}`, ` to ${s.bestemming}`) : "";
-      actLong.push(ph(`De Nederlandse overheid organiseert ${vv.nl}${dest} voor Nederlanders die ${land} willen verlaten.`,
-                      `The Dutch government is organising ${vv.en}${dest} for Dutch nationals who wish to leave ${land}.`));
-      actLong.push("");
-      actLong.push(ph("Wat moet u doen?", "What should you do?"));
-      actLong.push(ph(`1. Meld u aan${s.deadline ? " vóór " + s.deadline : ""} via ${aanmeld}. Vermeld uw naam, geboortedatum, paspoortnummer en met hoeveel personen u reist.`,
-                      `1. Register${s.deadline ? " before " + s.deadline : ""} via ${aanmeld}. Please state your name, date of birth, passport number and how many people are travelling with you.`));
-      actLong.push(ph(`2. Kom naar het verzamelpunt: ${verzamel}.${s.aanwezig ? " Zorg dat u er bent: " + s.aanwezig + "." : ""}`,
-                      `2. Go to the assembly point: ${verzamel}.${s.aanwezig ? " Be there: " + s.aanwezig + "." : ""}`));
-      actLong.push(ph(`3. Vertrek: ${vertrekTxt}.`, `3. Departure: ${vertrekTxt}.`));
-      actLong.push(ph("4. Reis alleen naar het verzamelpunt als dat veilig kan.", "4. Only travel to the assembly point if it is safe to do so."));
-      const WIE_NL = "Nederlanders en hun directe gezinsleden (partner en minderjarige kinderen) met een geldig reisdocument";
-      if (!NL && s.wie === WIE_NL) s = Object.assign({}, s, { wie: "Dutch nationals and their immediate family members (partner and minor children) with a valid travel document" });
-      if (s.wie) { actLong.push(""); actLong.push(ph(`Wie kan mee? ${s.wie}.`, `Who can travel? ${s.wie}.`).replace(/\.\.$/, ".")); }
-      const pk = s.pack.map(id => PACK.find(p => p.id === id)).filter(Boolean);
-      if (pk.length) {
-        actLong.push(""); actLong.push(ph("Neem mee:", "Bring:"));
-        pk.forEach(p => actLong.push(`• ${cap(p[l])}`));
+    if (modOn("reisadvies")) {
+      const sinds = v("kleurSinds") ? `Sinds ${v("kleurSinds")} geldt` : "Er geldt";
+      const geb = v("gebied") ? `${v("gebied")} van ${land}` : (prep === "op" ? `de ${land}` : `heel ${land}`);
+      P.push($("kleur").value === "rood"
+        ? `${sinds} kleurcode rood voor ${geb}. Dit houdt in: reis er niet heen. Bent u ${prep} ${land}? Verlaat dan het land als dat op een veilige manier kan.`
+        : `${sinds} kleurcode oranje voor ${geb}. Dit houdt in: reis er alleen heen als het noodzakelijk is.`);
+    }
+
+    if (modOn("eerder")) {
+      const dat = ph(v("eerderDatum"), "datum eerder bericht");
+      const url = v("eerderUrl");
+      P.push($("eerderV").value === "herhaal"
+        ? `Hieronder herhalen we een aantal belangrijke delen uit het bericht van ${dat}.` + (url ? ` Het hele bericht is terug te lezen op ${url}` : "")
+        : `Voor uitreismogelijkheden verwijzen we naar het bericht van ${dat}.` + (url ? ` U kunt het teruglezen op ${url}` : ""));
+    }
+
+    if (modOn("vertrek")) {
+      H("Vliegverkeer");
+      const lr = $("luchtruim").value;
+      if (lr === "dicht") P.push(`Het luchtruim van ${land} is op dit moment gesloten. Er zijn geen commerciële vluchten.`);
+      else P.push(`Het luchtruim van ${land} is open` + (lr === "beperkt" ? " en er is (beperkt) vliegverkeer." : "."));
+      if (v("vluchten")) P.push(punt(v("vluchten")));
+      if (lr !== "dicht") {
+        P.push("De situatie verandert continu. Houd er rekening mee dat vluchten uitgesteld of geannuleerd kunnen worden. Toch willen wij u op het hart drukken: blijf proberen een vliegticket te boeken. Neem voor meer informatie rechtstreeks contact op met uw reisorganisatie of luchtvaartmaatschappij.");
+        P.push("Houd het laatste nieuws in de gaten via de (lokale) media en overweeg goed of u veilig naar het vliegveld kunt reizen.");
       }
-      if (s.huisdier === "nee") actLong.push(ph("Huisdieren kunnen helaas niet mee.", "Unfortunately pets cannot be taken along."));
-      if (s.huisdier === "ja") actLong.push(ph("Huisdieren mogen mee in een geschikte reismand.", "Pets are allowed in a suitable travel crate."));
-      if (s.kosten) actLong.push(s.kosten);
-      actLong.push("");
-      actLong.push(ph(`Kunt u niet op tijd bij het verzamelpunt zijn, of wilt u toch niet mee? Laat het ons dan weten via ${tel}.`,
-                      `If you cannot reach the assembly point in time, or no longer wish to travel, please let us know via ${tel}.`));
-      actShort = ph(`Vertrek per ${vv.nlS} ${vertrek || "[datum]"} vanaf ${verzamel}. Aanmelden${s.deadline ? " vóór " + s.deadline : ""} via ${aanmeld}.`,
-                    `Departure by ${vv.enS} ${vertrek || "[date]"} from ${verzamel}. Register${s.deadline ? " before " + s.deadline : ""} via ${aanmeld}.`);
+      if (v("overland")) { H("Over land"); P.push(punt(v("overland"))); }
     }
 
-    // SMS / push
-    let push;
-    {
-      const head = `${sev}: ${label} ${l === "nl" ? "in" : "in"} ${where}.`;
-      const tail = l === "nl" ? ` Hulp nodig? Bel 24/7 ${tel}.` : ` Need help? Call 24/7 ${tel}.`;
-      const shorts = adv.map(a => a.short[l === "nl" ? 0 : 1]);
-      let body = "";
-      for (const sh of shorts) {
-        const next = body + " " + sh + ".";
-        if ((head + (actShort ? " " + actShort : "") + next + tail).length > 306) break;
-        body = next;
+    if (modOn("evac")) {
+      P.push({
+        niet: "Een door de Nederlandse overheid georganiseerde evacuatie is op dit moment niet aan de orde. Tegelijkertijd is Nederland, in nauwe samenwerking met onze bondgenoten, voorbereid op diverse mogelijke scenario’s.",
+        belofte: "We kunnen een evacuatie niet beloven. Wij bereiden ons voor op alle mogelijke scenario’s en staan voortdurend in contact met onze bondgenoten. We kunnen niet voorspellen hoe het gaat lopen. Het kan lang duren, of ineens heel snel gaan.",
+        voorbereiding: `Zoals u weet, bereiden wij ons actief voor op alle scenario’s. Vanaf vandaag bellen wij Nederlanders ${prep} ${land} met de vraag of zij gebruik willen maken van een door de Nederlandse overheid georganiseerd vertrek, als daar een kans voor ontstaat. Of en wanneer die kans gaat ontstaan, kunnen we niet zeggen. We kunnen ons voorstellen dat het besluit om te vertrekken ingrijpend is.`,
+        repatniet: "Repatriëring is niet aan de orde, maar we houden de ontwikkelingen en de veiligheidssituatie nauwlettend in de gaten."
+      }[$("evacV").value]);
+    }
+
+    if (modOn("repat")) {
+      H("Repatriëring door de Nederlandse overheid");
+      const bes = v("besluitdatum") ? `${cap(v("besluitdatum").replace(/,$/, ""))}, is besloten` : "Er is besloten";
+      P.push(`${bes} dat de Nederlandse overheid hulp gaat bieden aan Nederlanders ${prep} ${land} die het land willen verlaten. De hulp bestaat uit ${$("vervoer").value} van ${ph(v("van"), "vertrekplaats")} naar ${ph(v("naar"), "bestemming")}.` +
+        ({ commercieel: " Vanuit daar kunt u verder reizen naar Nederland met een commerciële vlucht.",
+           eigen: " Het vervolg vanuit daar is naar eigen keuze, kosten en verantwoordelijkheid.",
+           nl: "" })[$("vervolg").value] +
+        ({ overheid: " De kosten zijn voor rekening van de Nederlandse overheid.", bijdrage: " Na afloop wordt u gevraagd om een eigen bijdrage.", "": "" })[$("kosten").value]);
+      if (v("wie")) P.push(`Voor dit vertrek komen in aanmerking: ${punt(v("wie"))}` + ($("huisdier").value === "nee" ? " Huisdieren kunnen helaas niet mee." : ""));
+      const L = [];
+      if ($("aanmeldVia").value === "ccf") {
+        L.push(`• Registreer u via het Crisis Contactformulier: ${ph(v("ccfUrl"), "link")}`);
+        L.push("• U ontvangt een bevestiging van uw registratie. Het ministerie van Buitenlandse Zaken neemt telefonisch contact met u op.");
+      } else {
+        L.push("• Wij nemen telefonisch contact met u op.");
       }
-      push = head + (actShort ? " " + actShort : "") + body + tail;
+      if ($("anoniem").checked) L.push("• Houd uw telefoon in de gaten. Let op: het ministerie van Buitenlandse Zaken kan u anoniem bellen.");
+      L.push(v("verzamel") ? `• Verzamelpunt: ${punt(v("verzamel"))} Reis alleen naar het verzamelpunt als dat veilig kan.` : "• Onze collega’s geven telefonisch de andere relevante details, zoals het verzamelpunt en het tijdstip.");
+      if ($("bagage").checked) L.push("• Er kan alleen een absoluut minimum aan handbagage worden meegenomen, die u zelf moet kunnen dragen.");
+      L.push("• Verlaat u het land toch zelf, of heeft u geen hulp meer nodig? Geef dat dan zo snel mogelijk door.");
+      P.push(L.join("\n"));
+      if ($("risico").checked) P.push("Geen enkele optie is zonder risico. U zult zelf moeten afwegen of u mee wilt en mee kunt.");
+      if ($("geheim").checked) P.push("Wanneer we informatie met u delen over vertrekmogelijkheden, vragen we u om deze geheim te houden. Openbaarheid kan ervoor zorgen dat een operatie extra gevaarlijk wordt of zelfs niet door kan gaan.");
     }
 
-    // E-mail
-    const subject = s.persp === "evac"
-      ? `${sev}: ${ph("Ondersteund vertrek uit", "Assisted departure from")} ${land}${upd}`
-      : `${sev}: ${label} in ${where}${upd}`;
-    const lines = [];
-    lines.push(l === "nl" ? `Beste Nederlander in ${land},` : `Dear Dutch national in ${land},`);
-    lines.push("");
-    if (when) lines.push(when, "");
-    lines.push(sit, "");
-    if (actLong.length) { actLong.forEach(x => lines.push(x)); lines.push(""); }
-    const allAdv = adv.map(a => a[l]).concat(extra);
-    if (allAdv.length) {
-      lines.push(s.persp === "evac" ? ph("Verder adviseren wij:", "We further advise:") : ph("Ons advies:", "Our advice:"));
-      allAdv.forEach(a => lines.push(`• ${a}`));
-      lines.push("");
-    }
-    lines.push(l === "nl"
-      ? `Heeft u dringend consulaire hulp nodig? Neem dan 24 uur per dag, 7 dagen per week contact op via ${tel}.`
-      : `Do you urgently need consular assistance? Please contact us 24 hours a day, 7 days a week at ${tel}.`);
-    if (s.kanaal) lines.push(l === "nl" ? `U kunt ons ook bereiken via ${s.kanaal}.` : `You can also reach us via ${s.kanaal}.`);
-    if (s.web) lines.push(l === "nl" ? `Actuele informatie vindt u op ${s.web}.` : `For up-to-date information, visit ${s.web}.`);
-    lines.push("");
-    if (s.next) {
-      lines.push(l === "nl" ? `Wij informeren u opnieuw rond ${s.next}, of eerder als de situatie daarom vraagt.`
-                            : `We will update you again around ${s.next}, or sooner if the situation requires.`);
-      lines.push("");
-    }
-    lines.push(l === "nl" ? "Met vriendelijke groet," : "Kind regards,");
-    lines.push(afz || (l === "nl" ? "[afzender]" : "[sender]"));
-    lines.push("");
-    lines.push(l === "nl"
-      ? "U ontvangt dit bericht omdat u zich heeft geregistreerd bij de Informatieservice voor Nederlanders in het buitenland. Dit bericht is niet geschikt om op te reageren."
-      : "You are receiving this message because you registered with the Information Service for Dutch nationals abroad. Please do not reply to this message.");
-    const mail = lines.join("\n");
-
-    // Social
-    let social;
-    {
-      const head = `${sev} | ${label}, ${where}${upd}\n\n`;
-      const firstSentence = (sit.match(/^.*?[.!?](\s|$)/) || [sit])[0].trim();
-      const tips = adv.slice(0, 3).map(a => `▸ ${a.short[l === "nl" ? 0 : 1]}`).join("\n");
-      const tail = (l === "nl" ? `\n\nHulp nodig? 24/7: ${tel}` : `\n\nNeed help? 24/7: ${tel}`);
-      const act = actShort ? "\n\n" + actShort : "";
-      social = head + firstSentence + act + (tips ? "\n\n" + tips : "") + tail;
-      if (social.length > 280) social = head + firstSentence + act + tail;
-      if (social.length > 280) social = head + (actShort || firstSentence) + tail;
-      if (social.length > 280) social = head + (actShort || firstSentence);
+    if (modOn("ccf")) {
+      H("Crisis Contactformulier");
+      P.push(`Wij willen preciezer in beeld krijgen welke gestrande Nederlandse reizigers nog ${prep} ${land} zijn, zodat we hen eventueel specifieker kunnen adviseren en ondersteunen. Bent u nu ${prep} ${land} en woont u in Nederland? Dan willen we u vragen om het Crisis Contactformulier in te vullen: ${ph(v("ccfUrl"), "link")}`);
+      P.push("Heeft u zich aangemeld? Houd dan uw telefoon in de gaten: het ministerie van Buitenlandse Zaken kan u anoniem bellen. Verlaat u zelf het land, of heeft u geen hulp meer nodig? Geef dat dan door via de knop ‘Al aangemeld? Geef een wijziging door’.");
     }
 
-    return { push, subject, mail, social };
+    if (modOn("schuilen")) {
+      const items = SCHUIL.filter(([id]) => document.querySelector(`[data-schuil="${id}"]`).checked).map(x => x[1]);
+      if (items.length) {
+        H("Schuilen");
+        P.push(`Bent u op dit moment nog ${prep} ${land}? Of bent u van plan om in het land te blijven? Zoek dan een veilige plek. ` + items.join(" "));
+      }
+    }
+
+    if (modOn("verplaatsen")) {
+      const t = [];
+      if ($("vluchttas").checked) {
+        t.push("Bereid u voor op het moment dat u zich plotseling moet of wilt verplaatsen. Zet een vluchttas klaar. Deze tas moet niet te zwaar zijn. Neem daarom alleen noodzakelijke spullen mee. Denk aan:\n" +
+          ["Reisdocumenten: paspoort, zorgverzekeringsbewijs, rijbewijs, vaccinatieboekje",
+           "Medicatie en een eventuele doktersverklaring",
+           "Mobiele telefoon, oplader en (volle) powerbank",
+           "Geld: een creditcard en vooral contanten",
+           "Water en voedsel",
+           "Indien mogelijk: een papieren kaart van de regio/het land"].map(x => "• " + x).join("\n"));
+      }
+      const r = [];
+      if ($("route").checked) r.push("Gaat u zich verplaatsen? Laat uw dierbaren dan weten waar u naartoe gaat en welke route u volgt. Laat het weten als u bent gearriveerd. Verplaats u bij voorkeur niet alleen en wees als vrouw extra voorzichtig.");
+      if ($("onveilig").checked) r.push("Probeer vooraf te achterhalen of er gewelddadigheden in de omgeving zijn. Ga niet in het donker naar buiten, vermijd checkpoints en maak geen foto’s. Neem altijd alle belangrijke spullen mee en houd rekening met de mogelijkheid dat u niet meer terug kunt.");
+      if ($("auto").checked) r.push("Gaat u zich met de auto verplaatsen? Zorg voor de registratiepapieren en voldoende brandstof. Houd rekening met drukke wegen: uw reis kan langer duren dan gepland.");
+      if (r.length) t.push(r.join(" "));
+      if (t.length) { H("Verplaatsen"); t.forEach(x => P.push(x)); }
+    }
+
+    if (modOn("info")) {
+      H("Informatieservice");
+      P.push(`U ontvangt dit bericht omdat u zich heeft aangemeld bij de Informatieservice van Buitenlandse Zaken. Verandert er iets in uw situatie? Heeft u het land kunnen verlaten? Of verandert er iets in uw contact- of verblijfsgegevens? Geef dat dan zo snel mogelijk door via de Informatieservice. Kent u Nederlanders ${prep} ${land} die zich nog niet hebben geregistreerd? Vraag hen dan dat alsnog te doen via https://informatieservice.nederlandwereldwijd.nl`);
+    }
+
+    if (modOn("ambassade")) {
+      const a = $("ambV").value;
+      if (a === "open") { H("Ambassade"); P.push(`${afzender} is open. Wij staan klaar om Nederlanders in nood te helpen, voor zover de veiligheidssituatie dat toelaat.`); }
+      if (a === "dicht") P.push(`${afzender} is gesloten voor publiek. U kunt ons wel telefonisch bereiken.`);
+      if (a === "niet") P.push(`Ga niet naar ${low(afzender)}. Die ligt in een gevaarlijk deel van de stad.`);
+    }
+
+    if (modOn("contact")) {
+      P.push(`Heeft u dringend hulp nodig van de Nederlandse overheid? ${afzender} is 24 uur per dag en 7 dagen per week bereikbaar via het contactcenter van Nederland Wereldwijd op telefoonnummer ${tel}` + (wa ? ` of via WhatsApp ${wa}.` : "."));
+    }
+    if (modOn("cct")) {
+      P.push(`Probeert u ${land} zelfstandig te verlaten en heeft u problemen aan de grens? Ook dan kunt u contact opnemen. U kunt dan vragen doorverbonden te worden naar het Crisis Contact Team. Het team is op werkdagen telefonisch bereikbaar van 08.45 – 17.15 uur (Nederlandse tijd).`);
+    }
+    if (modOn("tips")) P.push("Bekijk wat u kunt doen als u in een crisissituatie terechtkomt: https://www.nederlandwereldwijd.nl/crisis/regelen-in-crisissituatie");
+
+    if (modOn("next")) {
+      P.push($("nextV").value === "dagelijks" ? "We blijven u voorlopig dagelijks via deze berichten op de hoogte houden." : "We blijven alles op de voet volgen, en zullen u bericht sturen als daar aanleiding voor is.");
+    }
+
+    const slot = modOn("slot") ? $("slotV").value : "";
+    if (slot === "veilig") P.push("We hopen dat u veilig bent en blijft, en wensen u sterkte.", "Met vriendelijke groet,");
+    else if (slot === "sterkte") P.push("Wij wensen u veel sterkte,");
+    else if (slot === "moed") P.push("We realiseren ons dat u zich in heel moeilijke omstandigheden bevindt. Houd vol. Weet dat onze collega’s dag en nacht werken om u zo goed mogelijk te helpen.", "Met vriendelijke groet,");
+    else if (slot === "haaks") P.push("Houd u haaks en veel sterkte,");
+    else P.push("Met vriendelijke groet,");
+    P.push(afzender);
+
+    return P.join("\n\n").replace(/\n{3,}/g, "\n\n");
   }
 
-  // ---- checks
-  function checks(s) {
+  // ---------- sms: gebeurtenis + risico + instructie + afzendercode
+  function composeSms() {
+    const parts = [v("smsEvent"), v("smsRisk"), v("smsAction")].map(punt).filter(Boolean);
+    const code = v("smscode");
+    return parts.join(" ") + (code ? (parts.length ? " " : "") + punt(code) : "");
+  }
+
+  // ---------- controles
+  function checks(sms) {
     const w = [];
-    if (!s.land) w.push("Land is niet ingevuld.");
-    if (!s.sitNL) w.push("Geen situatiebeschrijving (NL): er wordt een algemene zin gebruikt.");
-    if (!s.sitEN && lang === "en") w.push("Geen Engelse situatiebeschrijving: er wordt een algemene zin gebruikt.");
-    if (!s.advice.length && !s.extraNL) w.push("Er is geen advies geselecteerd.");
-    if (!s.afzender) w.push("Afzender is niet ingevuld.");
-    if (!s.tel) w.push("Noodnummer ontbreekt.");
-    if (s.persp === "evac") {
-      if (lang === "en" && (s.verzamel || s.deadline || s.aanwezig || s.aanmeld || s.kosten))
-        w.push("Logistieke velden (verzamelpunt, deadline, aanmelden, kosten) worden letterlijk overgenomen: vul ze in een taal in die beide versies dekt, of pas de Engelse tekst na het kopiëren aan.");
-      if (!s.verzamel) w.push("Verzamelpunt ontbreekt.");
-      if (!s.vertrek) w.push("Vertrektijd ontbreekt.");
-      if (!s.aanmeld) w.push("Aanmeldkanaal niet ingevuld: het noodnummer wordt gebruikt.");
-      if (!s.deadline) w.push("Geen aanmelddeadline ingevuld.");
-    }
-    if (s.type === "anders" && !s.anders) w.push("Vul een omschrijving in voor ‘Anders’.");
+    if (!v("land")) w.push("Land is niet ingevuld.");
+    if (!v("stad")) w.push("Standplaats van de post ontbreekt.");
+    if (!v("situatie") && soort().id !== "acuut") w.push("Er is geen situatiebeschrijving.");
+    if (soort().id === "acuut" && !v("dringend")) w.push("Vul bij acute dreiging een kernboodschap in.");
+    if (!v("smsEvent")) w.push("Sms: gebeurtenis ontbreekt.");
+    if (!v("smscode")) w.push("Sms-afzendercode ontbreekt (bijv. NL amb BEI).");
+    if ([...sms].length > 160) w.push("De sms is langer dan 160 tekens en wordt in meerdere delen verstuurd.");
+    if (modOn("repat") && modOn("evac") && $("evacV").value !== "voorbereiding") w.push("Het bericht bevat zowel repatriëring als een zin dat evacuatie/repatriëring niet aan de orde is.");
+    if (modOn("repat") && (!v("van") || !v("naar"))) w.push("Repatriëring: vul ‘van’ en ‘naar’ in.");
+    if (modOn("eerder") && !v("eerderDatum")) w.push("Vul de datum van het eerdere bericht in.");
+    if (modOn("vertrek") && $("luchtruim").value !== "dicht" && !v("vluchten")) w.push("Zelfstandig vertrek: noem beschikbare vluchten of maatschappijen.");
     return w;
   }
 
-  function smsSegments(n) { return n <= 160 ? 1 : Math.ceil(n / 153); }
-
-  // ---- render
-  let last = { nl: null, en: null };
+  // ---------- weergave
+  let kind = "mail", lastMail = "", lastSms = "";
   function render() {
-    const s = state();
-    last.nl = compose(s, "nl"); last.en = compose(s, "en");
-    const m = last[lang];
-    const sev = SEV[s.sev];
-    const b = $("banner");
-    b.className = "banner " + sev.cls;
-    b.textContent = `${sev[lang]} · ${lang === "nl" ? "Nederlands" : "English"}`;
-
-    const out = kind === "push" ? m.push : kind === "mail" ? m.mail : m.social;
-    $("subject").hidden = kind !== "mail";
-    $("subject").textContent = (lang === "nl" ? "Onderwerp: " : "Subject: ") + m.subject;
-    $("out").textContent = out;
-
-    const c = $("count"); const n = [...out].length;
-    if (kind === "push") { c.textContent = `${n} tekens · ${smsSegments(n)} sms-${smsSegments(n) > 1 ? "delen" : "deel"}`; c.classList.toggle("over", n > 306); }
-    else if (kind === "social") { c.textContent = `${n} / 280 tekens`; c.classList.toggle("over", n > 280); }
-    else { c.textContent = `${n} tekens`; c.classList.remove("over"); }
-
-    $("warnings").innerHTML = checks(s).map(x => `<li>${x.replace(/</g, "&lt;")}</li>`).join("");
-    $("anderWrap").hidden = s.type !== "anders";
-    $("evacCard").hidden = s.persp !== "evac";
+    document.querySelectorAll(".mod[data-mod]").forEach(el => el.hidden = !modOn(el.dataset.mod));
+    lastMail = compose(); lastSms = composeSms();
+    const out = $("out");
+    out.classList.toggle("sms", kind === "sms");
+    out.textContent = kind === "mail" ? lastMail : (lastSms || "Vul gebeurtenis, risico en instructie in.");
+    const c = $("count");
+    if (kind === "sms") { const n = [...lastSms].length; c.textContent = `${n} / 160 tekens`; c.classList.toggle("over", n > 160); }
+    else { c.textContent = `${lastMail.split(/\s+/).filter(Boolean).length} woorden`; c.classList.remove("over"); }
+    $("warnings").innerHTML = checks(lastSms).map(x => `<li>${x.replace(/</g, "&lt;")}</li>`).join("");
     save();
-  }
-
-  function textFor(l) {
-    const m = last[l];
-    if (kind === "mail") return (l === "nl" ? "Onderwerp: " : "Subject: ") + m.subject + "\n\n" + m.mail;
-    return kind === "push" ? m.push : m.social;
   }
 
   async function copy(text, btn) {
     try { await navigator.clipboard.writeText(text); }
-    catch (e) {
-      const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta);
-      ta.select(); try { document.execCommand("copy"); } catch (_) {} ta.remove();
-    }
+    catch (e) { const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (_) {} ta.remove(); }
     const old = btn.textContent; btn.textContent = "Gekopieerd ✓"; btn.classList.add("copied");
     setTimeout(() => { btn.textContent = old; btn.classList.remove("copied"); }, 1500);
   }
 
-  // ---- persistence (per browser, best effort)
-  const FIELDS = ["persp","vervoer","bestemming","verzamel","vertrek","aanwezig","deadline","aanmeld","wie","kosten","huisdier","land","plaats","type","anders","sitNL","sitEN","extraNL","extraEN","afzender","tel","kanaal","web","nr","tijd","next"];
+  // ---------- opslag (alleen deze browser)
+  const STORE = "crisisberichten-concept-v3";
+  const allInputs = () => [...document.querySelectorAll("#form input, #form select, #form textarea")];
+  const key = (el) => (el.name === "soort" && "soort:" + el.value) || el.id || (el.dataset.module && "m:" + el.dataset.module) || (el.dataset.schuil && "s:" + el.dataset.schuil);
+  const isCheck = (el) => el.type === "checkbox" || el.type === "radio";
   function save() {
-    try {
-      const s = {}; FIELDS.forEach(f => s[f] = $(f).value);
-      s.sev = state().sev; s.advice = state().advice; s.pack = state().pack; s.touched = touchedAdvice;
-      localStorage.setItem(STORE, JSON.stringify(s));
-    } catch (e) {}
+    try { const s = {}; allInputs().forEach(el => { const k = key(el); if (k) s[k] = isCheck(el) ? el.checked : el.value; }); localStorage.setItem(STORE, JSON.stringify(s)); } catch (e) {}
   }
   function load() {
     try {
-      const s = JSON.parse(localStorage.getItem(STORE) || "null");
-      if (!s) return false;
-      FIELDS.forEach(f => { if (s[f] != null) $(f).value = s[f]; });
-      const r = document.getElementById("sev-" + s.sev); if (r) r.checked = true;
-      document.querySelectorAll("#adviceList input").forEach(i => i.checked = (s.advice || []).includes(i.value));
-      if (s.pack) document.querySelectorAll("#packList input").forEach(i => i.checked = s.pack.includes(i.value));
-      touchedAdvice = !!s.touched;
+      const s = JSON.parse(localStorage.getItem(STORE) || "null"); if (!s) return false;
+      allInputs().forEach(el => { const k = key(el); if (k && k in s) { if (isCheck(el)) el.checked = s[k]; else el.value = s[k]; } });
       return true;
     } catch (e) { return false; }
   }
 
+  // ---------- voorbeeld (fictief land)
   function example() {
-    $("land").value = "Voorbeeldland"; $("plaats").value = "de hoofdstad"; $("type").value = "conflict";
-    document.getElementById("sev-urgent").checked = true;
-    $("persp").value = "evac";
-    $("sitNL").value = "Sinds vanochtend wordt er in en rond de hoofdstad gevochten. De internationale luchthaven is gesloten voor commerciële vluchten en de situatie kan snel verslechteren.";
-    $("sitEN").value = "Since this morning there has been fighting in and around the capital. The international airport is closed to commercial flights and the situation may deteriorate quickly.";
-    $("afzender").value = "Ambassade in Voorbeeldland";
-    $("web").value = "www.nederlandwereldwijd.nl";
-    $("vervoer").value = "vlucht"; $("bestemming").value = "Eindhoven";
-    $("verzamel").value = "militaire terminal van de internationale luchthaven (ingang Noord)";
-    const d = new Date(Date.now() + 36e5 * 36); d.setHours(10, 0, 0, 0);
-    $("vertrek").value = new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-    $("aanwezig").value = "uiterlijk 3 uur voor vertrek"; $("deadline").value = "vanavond 20.00 uur lokale tijd";
-    $("aanmeld").value = "+31 247 247 247"; $("kosten").value = "";
-    $("huisdier").value = "nee";
-    $("next").value = "morgen 08.00 uur lokale tijd"; $("nr").value = "2"; $("tijd").value = nowLocal();
-    $("extraNL").value = ""; $("extraEN").value = "";
-    touchedAdvice = false; applySuggested(true); render();
+    document.getElementById("soort-eigen").checked = true; applySoort();
+    $("land").value = "Voorbeeldland"; $("voorz").value = "Nederlanders in"; $("stad").value = "Voorbeeldstad";
+    $("smscode").value = "NL amb VBS"; $("tijd").value = nowLocal();
+    $("situatie").value = "De luchtaanvallen en beschietingen in Voorbeeldland gaan door, zowel in het grensgebied als in andere delen van het land. Gisteren en vandaag ook weer in de buitenwijken van de hoofdstad. Dat heeft grote impact op de bevolking en ongetwijfeld ook op u";
+    $("dringend").value = "";
+    $("smsEvent").value = "Aanvallen in en rond Voorbeeldstad houden aan.";
+    $("smsRisk").value = "Kans op verdere escalatie.";
+    $("kleur").value = "rood"; $("kleurSinds").value = "1 november 2026"; $("gebied").value = "";
+    $("luchtruim").value = "beperkt";
+    $("vluchten").value = "Volgens onze laatste informatie voert Voorbeeld Airways op dit moment vrijwel als enige luchtvaartmaatschappij vluchten uit vanaf de internationale luchthaven. Deze vluchten zijn voor een groot deel volgeboekt";
+    $("overland").value = "U kunt over land naar het buurland reizen. De grensovergang is dagelijks open van 08.00 tot 16.00 uur. Houd rekening met lange wachttijden";
+    render();
   }
 
-  // ---- events
+  // ---------- events
   $("form").addEventListener("input", render);
-  $("form").addEventListener("change", (e) => {
-    if (e.target.id === "type") { if (!touchedAdvice) applySuggested(true); else applySuggested(false); }
-    if (e.target.closest && e.target.closest("#adviceList")) touchedAdvice = true;
-    render();
-  });
+  $("form").addEventListener("change", (e) => { if (e.target.name === "soort") applySoort(); render(); });
   $("tabs").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-kind]"); if (!b) return;
-    kind = b.dataset.kind;
-    $("tabs").querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", x === b));
-    render();
+    kind = b.dataset.kind; $("tabs").querySelectorAll("button").forEach(x => x.setAttribute("aria-selected", x === b)); render();
   });
-  document.querySelector(".langswitch").addEventListener("click", (e) => {
-    const b = e.target.closest("button[data-lang]"); if (!b) return;
-    lang = b.dataset.lang;
-    document.querySelectorAll(".langswitch button").forEach(x => x.setAttribute("aria-pressed", x === b));
-    render();
-  });
-  $("copy").addEventListener("click", (e) => copy(textFor(lang), e.currentTarget));
-  $("copyAll").addEventListener("click", (e) => copy(textFor("nl") + "\n\n— — —\n\n" + textFor("en"), e.currentTarget));
+  $("copy").addEventListener("click", (e) => copy(kind === "mail" ? lastMail : lastSms, e.currentTarget));
   $("voorbeeld").addEventListener("click", example);
   $("wis").addEventListener("click", () => {
     if (!confirm("Alle velden wissen?")) return;
-    FIELDS.forEach(f => { if (!["type","tel","nr","tijd","persp","vervoer","huisdier","vertrek","wie"].includes(f)) $(f).value = ""; });
-    $("type").value = TYPES[0].id; $("persp").value = "blijf"; $("vervoer").value = "vlucht"; $("huisdier").value = "";
-    $("vertrek").value = ""; $("wie").value = "Nederlanders en hun directe gezinsleden (partner en minderjarige kinderen) met een geldig reisdocument";
-    document.querySelectorAll("#packList input").forEach(i => i.checked = PACK.find(p => p.id === i.value).on);
-    $("type").value = TYPES[0].id; $("tel").value = "+31 247 247 247"; $("nr").value = "1"; $("tijd").value = nowLocal();
-    document.getElementById("sev-warn").checked = true;
-    touchedAdvice = false; applySuggested(true); render();
+    try { localStorage.removeItem(STORE); } catch (e) {}
+    location.reload();
   });
 
-  // ---- init
-  if (!load()) { $("tijd").value = nowLocal(); applySuggested(true); }
-  else applySuggested(false);
+  // ---------- start
+  if (!load()) { $("tijd").value = nowLocal(); applySoort(); }
   render();
 })();
 </script>
